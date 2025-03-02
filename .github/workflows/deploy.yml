@@ -1,0 +1,25 @@
+name: Deploy to VPN Server
+
+on:
+  push:
+    branches:
+      - main  # or your deployment branch
+
+jobs:
+  deploy:
+    runs-on: self-hosted  # This targets your VPN server’s runner
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: npm install   # Adjust based on your technology (npm, pip, composer, etc.)
+
+      - name: Build Application (Optional)
+        run: npm run build  # Skip if not needed
+
+      - name: Restart NSSM Service
+        run: |
+          nssm stop YourServiceName
+          nssm start YourServiceName
